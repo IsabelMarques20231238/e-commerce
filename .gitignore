@@ -1,0 +1,50 @@
+# Laravel (mini-ecommerce)
+mini-ecommerce/vendor
+mini-ecommerce/node_modules
+mini-ecommerce/.env
+mini-ecommerce/.env.*
+mini-ecommerce/storage/*.key
+mini-ecommerce/public/storage
+mini-ecommerce/storage/logs/*.log
+mini-ecommerce/bootstrap/cache/*.php
+mini-ecommerce/composer.lock
+mini-ecommerce/package-lock.json
+
+# Angular (mini-ecommerce-frontend)
+mini-ecommerce-frontend/dist
+mini-ecommerce-frontend/.angular
+mini-ecommerce-frontend/node_modules
+mini-ecommerce-frontend/package-lock.json
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache
+.eslintcache
+.turbo
+
+# Build outputs
+build/
+dist/
+out/
+
+# OS
+Thumbs.db
+.DS_Store

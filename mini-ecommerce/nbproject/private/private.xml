@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/routes/api.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/app/Http/Controllers/Controller.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/config/app.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/config/cors.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/app/Http/Controllers/Api/ProductController.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/app/Models/Product.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/app/Models/Category.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/app/Http/Controllers/Api/CategoryController.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/database/migrations/2026_05_08_234112_add_category_id_to_products_table.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/database/migrations/2026_05_10_161937_add_slug_to_categories_table.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/app/Http/Controllers/Api/AdminController.php</file>
+            <file>file:/C:/xampp/htdocs/mini-ecommerce/database/migrations/0001_01_01_000000_create_users_table.php</file>
+        </group>
+    </open-files>
+</project-private>
