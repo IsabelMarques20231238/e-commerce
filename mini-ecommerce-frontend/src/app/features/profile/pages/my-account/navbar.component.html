@@ -1,0 +1,51 @@
+<nav class="bg-[#b22204] text-white shadow-md sticky top-0 z-50">
+  <div class="container mx-auto px-6 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-8">
+      <h1 class="text-2xl font-bold tracking-tighter cursor-pointer" routerLink="/">SHOPEE</h1>
+      
+      <!-- Links alinhados à esquerda quando em Minha Conta -->
+      <div class="hidden md:flex items-center gap-6">
+        <a routerLink="/" routerLinkActive="border-b-2 border-white" [routerLinkActiveOptions]="{exact: true}" class="py-1">Início</a>
+        <a routerLink="/categorias" routerLinkActive="border-b-2 border-white" class="py-1">Categorias</a>
+        @if (router.url === '/minha-conta') {
+          <a routerLink="/minha-conta" routerLinkActive="border-b-2 border-white" class="py-1">Minha Conta</a>
+        }
+      </div>
+    </div>
+
+    <!-- Barra de Pesquisa Condicional -->
+    @if (router.url !== '/minha-conta') {
+      <div class="flex-1 max-w-2xl mx-12 relative">
+        <input type="text" placeholder="Pesquise produtos..." class="w-full py-2 px-4 rounded-sm text-black">
+        <button class="absolute right-1 top-1 bg-[#b22204] p-1.5 rounded-sm">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </button>
+      </div>
+    }
+
+    <!-- Ações e Perfil -->
+    <div class="flex items-center gap-6">
+      <div class="relative cursor-pointer" routerLink="/cart">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <span class="absolute -top-2 -right-2 bg-white text-[#b22204] text-[10px] font-bold px-1.5 rounded-full border border-[#b22204]">3</span>
+      </div>
+      
+      <div class="relative group">
+        <div class="flex items-center gap-2 cursor-pointer py-2">
+          <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center border border-white/30">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path></svg>
+          </div>
+          <span class="text-sm font-medium">João Silva</span>
+        </div>
+        
+        <!-- Dropdown de Perfil conforme solicitado -->
+        <div class="absolute right-0 top-full w-48 bg-white text-gray-800 rounded-lg shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all border border-gray-100">
+          <a routerLink="/minha-conta" class="block px-4 py-2 hover:bg-gray-50">Minha Conta</a>
+          <a routerLink="/cart" class="block px-4 py-2 hover:bg-gray-50">Meu Carrinho</a>
+          <div class="h-px bg-gray-100 my-1"></div>
+          <button class="w-full text-left px-4 py-2 hover:bg-red-50 text-red-600">Sair</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>

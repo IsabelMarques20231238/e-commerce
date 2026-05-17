@@ -1,0 +1,70 @@
+.favorite-icon-filled {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+.favorite-icon-empty {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.cart-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  border-radius: 9999px;
+  animation: cart-spin 0.65s linear infinite;
+}
+
+.adding-cart-button {
+  animation: add-button-pulse 620ms ease-in-out infinite;
+}
+
+.cart-fly-image {
+  position: fixed;
+  z-index: 9999;
+  border-radius: 12px;
+  object-fit: cover;
+  pointer-events: none;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.24);
+  will-change: transform, opacity;
+}
+
+.cart-toast {
+  animation: cart-toast-in 160ms ease-out, cart-toast-out 220ms ease-in 1.78s forwards;
+}
+
+@keyframes cart-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cart-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cart-toast-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes add-button-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.985);
+  }
+}

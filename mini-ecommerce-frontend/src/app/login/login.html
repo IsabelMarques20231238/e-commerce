@@ -1,0 +1,72 @@
+<main class="auth-shell flex-grow flex items-center justify-center py-10 px-4 min-h-screen">
+  <div class="auth-glow auth-glow-left"></div>
+  <div class="auth-glow auth-glow-right"></div>
+
+  <div class="relative z-10 w-full max-w-[1000px] grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl overflow-hidden shadow-lg border border-[#e2e2e2]">
+    
+    <div class="hidden md:flex flex-col justify-center items-start p-10 relative bg-[#b22204]">
+      <div class="absolute inset-0 opacity-10" style="background-image: url('https://images.unsplash.com/photo-1512428559083-a400a3b8a63e?q=80&w=1000'); background-size: cover; background-position: center;"></div>
+      <div class="relative z-10 text-white">
+        <h1 class="text-3xl font-bold mb-4">Bem-vindo de volta!</h1>
+        <p class="text-lg opacity-90 max-w-sm mb-8">
+          Acesse sua conta para continuar suas compras e aproveitar as melhores ofertas de Angola.
+        </p>
+        <div class="p-4 bg-white/10 rounded-lg backdrop-blur-sm border border-white/20">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="material-symbols-outlined">verified</span>
+            <span class="font-semibold text-sm">Segurança Garantida</span>
+          </div>
+          <p class="text-xs opacity-80">Seus dados estão protegidos com criptografia de ponta a ponta.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-10 flex flex-col justify-center">
+      <div class="mb-8">
+        <h2 class="text-xl font-bold text-[#1a1c1c] mb-1">Acessar Conta</h2>
+        <p class="text-sm text-[#5e5e5e]">Insira seus dados para entrar</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+  
+  <div class="relative group">
+    <label class="absolute -top-2.5 left-3 bg-white px-1 text-xs font-medium text-[#5e5e5e]">Email</label>
+    <div class="flex items-center border rounded-lg px-4 h-12 transition-all"
+         [ngClass]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched ? 'border-red-500' : 'border-[#8f7069]'">
+      <span class="material-symbols-outlined text-[#5e5e5e] mr-3">mail</span>
+      <input type="email" formControlName="email" 
+             class="bg-transparent border-none focus:ring-0 w-full text-sm outline-none" 
+             placeholder="exemplo@email.com">
+    </div>
+    <span *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-500 text-[10px] mt-1">
+      E-mail inválido.
+    </span>
+  </div>
+
+  <div class="relative group">
+    <label class="absolute -top-2.5 left-3 bg-white px-1 text-xs font-medium text-[#5e5e5e]">Palavra-passe</label>
+    <div class="flex items-center border rounded-lg px-4 h-12 transition-all"
+         [ngClass]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? 'border-red-500' : 'border-[#8f7069]'">
+      <span class="material-symbols-outlined text-[#5e5e5e] mr-3">lock</span>
+      <input type="password" formControlName="password" 
+             class="bg-transparent border-none focus:ring-0 w-full text-sm outline-none" 
+             placeholder="••••••••">
+    </div>
+  </div>
+
+  <button type="submit" 
+          [disabled]="loginForm.invalid"
+          class="bg-[#b22204] disabled:bg-gray-400 text-white text-sm font-semibold h-12 rounded-lg shadow-md transition-all flex items-center justify-center gap-2">
+    Entrar <span class="material-symbols-outlined">login</span>
+  </button>
+</form>
+
+      <div class="text-center mt-8">
+  <p class="text-sm text-[#5e5e5e]">
+    Novo no Shope Ngola? 
+    <a routerLink="/register" class="text-[#b22204] font-bold hover:underline cursor-pointer">Registar agora</a>
+  </p>
+</div>
+    </div>
+  </div>
+</main>

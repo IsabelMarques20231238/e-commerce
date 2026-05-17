@@ -1,0 +1,298 @@
+<div class="admin-shell">
+  <div *ngIf="toastMessage" class="admin-toast" [class.error]="toastType === 'error'">
+    {{ toastMessage }}
+  </div>
+
+  <header class="admin-topbar">
+    <div>
+      <strong>Shope Ngola</strong>
+      <span>Admin</span>
+    </div>
+    <a href="/home">Voltar a loja</a>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <button [class.active]="selectedSection === 'dashboard'" (click)="selectSection('dashboard')">
+        <span class="material-symbols-outlined">dashboard</span>
+        Dashboard
+      </button>
+      <button [class.active]="selectedSection === 'products'" (click)="selectSection('products')">
+        <span class="material-symbols-outlined">inventory_2</span>
+        Produtos
+      </button>
+      <button [class.active]="selectedSection === 'orders'" (click)="selectSection('orders')">
+        <span class="material-symbols-outlined">shopping_bag</span>
+        Pedidos
+      </button>
+      <button [class.active]="selectedSection === 'reports'" (click)="selectSection('reports')">
+        <span class="material-symbols-outlined">bar_chart</span>
+        Relatorios
+      </button>
+      <button [class.active]="selectedSection === 'security'" (click)="selectSection('security')">
+        <span class="material-symbols-outlined">lock</span>
+        Seguranca
+      </button>
+
+      <button class="admin-logout" type="button" [disabled]="loggingOut" (click)="logout()">
+        <span class="material-symbols-outlined">logout</span>
+        {{ loggingOut ? 'A sair...' : 'Logout' }}
+      </button>
+    </aside>
+
+    <main class="admin-main">
+      <p *ngIf="adminErrorMessage" class="admin-error-message">{{ adminErrorMessage }}</p>
+
+      <section *ngIf="selectedSection === 'dashboard'">
+        <div class="section-heading">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Resumo rapido da loja.</p>
+          </div>
+        </div>
+
+        <p *ngIf="loadingDashboard" class="muted">A carregar dashboard...</p>
+
+        <div class="stats-grid" *ngIf="!loadingDashboard">
+          <article>
+            <span>Total Produtos</span>
+            <strong>{{ stats.totalProducts }}</strong>
+          </article>
+          <article>
+            <span>Total Pedidos</span>
+            <strong>{{ stats.totalOrders }}</strong>
+          </article>
+          <article>
+            <span>Total Users</span>
+            <strong>{{ stats.totalUsers }}</strong>
+          </article>
+          <article>
+            <span>Total Vendas</span>
+            <strong>{{ stats.totalSales | number:'1.0-0' }} Kz</strong>
+          </article>
+        </div>
+      </section>
+
+      <section *ngIf="selectedSection === 'products'">
+        <div class="section-heading">
+          <div>
+            <h1>Produtos</h1>
+            <p>Gerir produtos existentes e criar novos produtos.</p>
+          </div>
+          <button class="primary-action" (click)="startCreateProduct()">Adicionar produto</button>
+        </div>
+
+        <div class="product-editor">
+          <h2>{{ editingProduct ? 'Editar produto' : 'Adicionar produto' }}</h2>
+          <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+            <div class="form-grid">
+              <label>
+                Nome
+                <input formControlName="name" type="text" />
+              </label>
+              <label>
+                Categoria
+                <select formControlName="category_id">
+                  <option value="">Selecionar categoria</option>
+                  <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                </select>
+              </label>
+              <label>
+                Preco
+                <input formControlName="price" type="number" min="0" step="0.01" />
+              </label>
+              <label>
+                Stock
+                <input formControlName="stock" type="number" min="0" />
+              </label>
+              <label class="wide">
+                Descricao
+                <textarea formControlName="description" rows="3"></textarea>
+              </label>
+              <label class="wide">
+                Imagem
+                <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+              </label>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="ghost-action" (click)="startCreateProduct()">Limpar</button>
+              <button type="submit" class="primary-action" [disabled]="savingProduct">
+                {{ savingProduct ? 'A guardar...' : 'Guardar produto' }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <p *ngIf="loadingProducts" class="muted">A carregar produtos...</p>
+        <div class="table-wrap" *ngIf="!loadingProducts">
+          <table>
+            <thead>
+              <tr>
+                <th>Imagem</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Preco</th>
+                <th>Stock</th>
+                <th class="right">Acoes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of products">
+                <td><img class="product-thumb" [src]="getImage(product)" alt="" /></td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category?.name || 'Sem categoria' }}</td>
+                <td>{{ product.price | number:'1.0-0' }} Kz</td>
+                <td>{{ product.stock }}</td>
+                <td class="right">
+                  <button class="table-action" (click)="startEditProduct(product)">Editar</button>
+                  <button class="danger-action" (click)="deleteProduct(product)">Remover</button>
+                </td>
+              </tr>
+              <tr *ngIf="products.length === 0">
+                <td colspan="6" class="empty">Nenhum produto encontrado.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section *ngIf="selectedSection === 'orders'">
+        <div class="section-heading">
+          <div>
+            <h1>Pedidos</h1>
+            <p>Acompanhar pedidos e alterar status.</p>
+          </div>
+        </div>
+
+        <p *ngIf="loadingOrders" class="muted">A carregar pedidos...</p>
+        <div class="table-wrap" *ngIf="!loadingOrders">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Data</th>
+                <th class="right">Acoes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orders">
+                <td>#{{ order.id }}</td>
+                <td>{{ order.user?.name || 'Cliente' }}</td>
+                <td>{{ order.total_amount | number:'1.0-0' }} Kz</td>
+                <td>
+                  <select class="status-select" [ngModel]="order.status" (ngModelChange)="updateOrderStatus(order, $event)">
+                    <option value="pending">Pendente</option>
+                    <option value="paid">Pago</option>
+                    <option value="shipped">Enviado</option>
+                    <option value="delivered">Entregue</option>
+                    <option value="cancelled">Cancelado</option>
+                  </select>
+                </td>
+                <td>{{ order.created_at | date:'short' }}</td>
+                <td class="right">
+                  <button class="table-action" (click)="openOrderDetails(order)">Ver detalhes</button>
+                </td>
+              </tr>
+              <tr *ngIf="orders.length === 0">
+                <td colspan="6" class="empty">Ainda nao existem pedidos.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section *ngIf="selectedSection === 'reports'">
+        <div class="section-heading">
+          <div>
+            <h1>Relatorios</h1>
+            <p>Exportar dados administrativos.</p>
+          </div>
+        </div>
+
+        <div class="reports-panel">
+          <button class="primary-action" [disabled]="exporting" (click)="exportReport('csv')">
+            Exportar CSV
+          </button>
+          <button class="ghost-action" [disabled]="exporting" (click)="exportReport('pdf')">
+            Exportar PDF
+          </button>
+        </div>
+      </section>
+
+      <section *ngIf="selectedSection === 'security'">
+        <div class="section-heading">
+          <div>
+            <h1>Seguranca</h1>
+            <p>Alterar a palavra-passe da conta admin.</p>
+          </div>
+        </div>
+
+        <div class="security-panel">
+          <div class="security-note">
+            <span class="material-symbols-outlined">shield</span>
+            <p>Usa uma palavra-passe forte com pelo menos 8 caracteres. Esta alteracao afeta a tua conta admin atual.</p>
+          </div>
+
+          <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" class="security-form">
+            <label>
+              Palavra-passe atual
+              <input type="password" formControlName="current_password" autocomplete="current-password" />
+            </label>
+
+            <div class="form-grid">
+              <label>
+                Nova palavra-passe
+                <input type="password" formControlName="new_password" autocomplete="new-password" placeholder="Min. 8 caracteres" />
+              </label>
+              <label>
+                Confirmar nova palavra-passe
+                <input type="password" formControlName="new_password_confirmation" autocomplete="new-password" placeholder="Repete a nova password" />
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-action" [disabled]="loadingPassword">
+                {{ loadingPassword ? 'A atualizar...' : 'Atualizar Palavra-passe' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" *ngIf="selectedOrder" (click)="closeOrderDetails()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <button class="modal-close" (click)="closeOrderDetails()">x</button>
+      <h2>Pedido #{{ selectedOrder.id }}</h2>
+      <div class="detail-grid">
+        <p><span>Cliente</span>{{ selectedOrder.user?.name || 'Cliente' }}</p>
+        <p><span>Status</span><strong [class]="statusClass(selectedOrder.status)">{{ formatStatus(selectedOrder.status) }}</strong></p>
+        <p><span>Total</span>{{ selectedOrder.total_amount | number:'1.0-0' }} Kz</p>
+        <p><span>Data</span>{{ selectedOrder.created_at | date:'short' }}</p>
+      </div>
+
+      <h3>Produtos</h3>
+      <div class="order-items" *ngIf="getOrderItems(selectedOrder).length > 0; else noItems">
+        <div class="order-item" *ngFor="let item of getOrderItems(selectedOrder)">
+          <img [src]="getImage(item.product)" alt="" />
+          <div>
+            <strong>{{ item.product?.name || 'Produto' }}</strong>
+            <span>Qtd: {{ item.quantity }} | {{ item.price | number:'1.0-0' }} Kz</span>
+          </div>
+          <b>{{ (item.price * item.quantity) | number:'1.0-0' }} Kz</b>
+        </div>
+      </div>
+      <ng-template #noItems>
+        <p class="muted">Produtos nao encontrados para este pedido.</p>
+      </ng-template>
+
+      <div class="modal-actions">
+        <button class="primary-action" (click)="closeOrderDetails()">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+/* Estilos para as novas mensagens abstratas */
+.auth-shell {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(178, 34, 4, 0.18), transparent 34%),
+    radial-gradient(circle at 90% 88%, rgba(214, 60, 30, 0.16), transparent 32%),
+    linear-gradient(135deg, #ffdad3 0%, #f3f3f4 48%, #ffffff 100%);
+}
+
+.auth-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(178, 34, 4, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178, 34, 4, 0.15) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+.auth-glow {
+  position: absolute;
+  width: min(440px, 70vw);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.34;
+  pointer-events: none;
+}
+
+.auth-glow-left {
+  top: -160px;
+  left: -120px;
+  background: #b22204;
+}
+
+.auth-glow-right {
+  right: -120px;
+  bottom: -160px;
+  background: #d63c1e;
+}
+
+.alert-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #f87171;
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #dcfce3;
+  color: #166534;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #4ade80;
+  text-align: center;
+}

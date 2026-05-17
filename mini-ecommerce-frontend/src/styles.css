@@ -1,0 +1,83 @@
+/* 1º: IMPORTAR SEMPRE PRIMEIRO */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+/* 2º: TAILWIND LOGO A SEGUIR */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3º: O TEU RESTANTE CSS */
+/* Estilo fiel ao Stitch para inputs que flutuam */
+.mat-input-group { position: relative; margin-bottom: 20px; }
+.mat-input {
+  width: 100%; padding: 12px 16px; border: 1px solid #8f7069;
+  border-radius: 8px; background: transparent; outline: none;
+}
+.mat-label {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  background: white; padding: 0 4px; color: #5e5e5e; pointer-events: none; transition: 0.2s;
+}
+.mat-input:focus + .mat-label, 
+.mat-input:not(:placeholder-shown) + .mat-label {
+  top: 0; font-size: 12px; color: #b22204;
+}
+
+/* Configurar os Ícones */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Cor de fundo base e Sombras dos Cartões */
+body {
+  background-color: #F5F5F5;
+  color: #1a1c1c;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark,
+.dark body,
+.dark app-root {
+  background-color: #101214;
+  color: #f5f5f5;
+}
+
+.dark .bg-white { background-color: #181b20 !important; }
+.dark .bg-gray-50,
+.dark .bg-gray-50\/50,
+.dark .bg-gray-100,
+.dark .bg-gray-200,
+.dark .bg-red-50,
+.dark .bg-orange-50,
+.dark .bg-\[\#f9f9f9\] { background-color: #101214 !important; }
+.dark .hover\:bg-gray-50:hover,
+.dark .hover\:bg-red-50:hover { background-color: #22262d !important; }
+.dark .border-gray-100,
+.dark .border-gray-200 { border-color: #2d333b !important; }
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-black,
+.dark .text-\[\#1a1c1c\] { color: #f5f5f5 !important; }
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-\[\#5e5e5e\] { color: #b6beca !important; }
+.dark .text-gray-400 { color: #8f99a8 !important; }
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-2xl { box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important; }
+.dark input,
+.dark select {
+  background-color: #111418;
+  color: #f5f5f5;
+  border-color: #2d333b;
+}
+.dark input::placeholder { color: #8f99a8; }
+.dark .sidebar-item-active {
+  background-color: #2a1714;
+  color: #ffb3a5;
+  border-right-color: #ff7f66;
+}
+
+.product-card-shadow { box-shadow: 0px 2px 4px rgba(0,0,0,0.05); }
+.product-card-shadow:hover { box-shadow: 0px 4px 12px rgba(0,0,0,0.1); }

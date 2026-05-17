@@ -1,0 +1,71 @@
+<main class="auth-shell flex-grow flex items-center justify-center py-10 px-margin-mobile min-h-screen">
+  <div class="auth-glow auth-glow-left"></div>
+  <div class="auth-glow auth-glow-right"></div>
+
+  <div class="relative z-10 w-full max-w-[1000px] grid md:grid-cols-2 bg-white rounded-xl shadow-lg overflow-hidden border border-surface-variant">
+    
+    <div class="hidden md:block relative bg-primary-container">
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary-container mix-blend-multiply"></div>
+      <img class="w-full h-full object-cover" src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000" alt="Shopping">
+      <div class="absolute inset-0 flex flex-col justify-end p-xl text-on-primary">
+        <h2 class="font-headline-lg text-headline-lg mb-sm">Join the Community</h2>
+        <p class="font-body-lg text-body-lg opacity-90">Experience the fastest and most reliable way to shop in Angola.</p>
+      </div>
+    </div>
+
+    <div class="p-lg md:p-xl flex flex-col justify-center bg-white">
+      
+      <div class="mb-xl">
+        <h1 class="font-headline-lg-mobile md:font-headline-lg text-primary mb-xs">Sign Up</h1>
+        <p class="text-secondary font-body-md">Fill in your details to create a new account</p>
+      </div>
+
+      <div *ngIf="errorMessage" class="bg-red-100 text-red-800 border border-red-300 p-3 rounded-lg mb-5 text-sm text-center">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="successMessage" class="bg-green-100 text-green-800 border border-green-300 p-3 rounded-lg mb-5 text-sm text-center">
+        {{ successMessage }}
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="flex flex-col gap-5">
+  
+        <div class="relative">
+          <label class="absolute -top-2 left-3 bg-white px-1 text-xs text-[#5e5e5e]">Nome Completo</label>
+          <input type="text" formControlName="name" class="w-full border border-[#8f7069] rounded-lg p-3 outline-none focus:border-[#b22204]">
+        </div>
+
+        <div class="relative">
+          <label class="absolute -top-2 left-3 bg-white px-1 text-xs text-[#5e5e5e]">Email</label>
+          <input type="email" formControlName="email" class="w-full border border-[#8f7069] rounded-lg p-3 outline-none focus:border-[#b22204]">
+        </div>
+
+        <div class="relative">
+          <label class="absolute -top-2 left-3 bg-white px-1 text-xs text-[#5e5e5e]">Palavra-passe</label>
+          <input type="password" formControlName="password" class="w-full border border-[#8f7069] rounded-lg p-3 outline-none focus:border-[#b22204]">
+        </div>
+
+        <div class="relative">
+          <label class="absolute -top-2 left-3 bg-white px-1 text-xs text-[#5e5e5e]">Confirmar Palavra-passe</label>
+          <input type="password" formControlName="confirmPassword" class="w-full border border-[#8f7069] rounded-lg p-3 outline-none focus:border-[#b22204]">
+          
+          <span *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched" 
+                class="text-red-500 text-[10px] absolute mt-1">
+            As palavras-passe não coincidem!
+          </span>
+        </div>
+
+        <button type="submit" [disabled]="registerForm.invalid" 
+                class="bg-[#b22204] disabled:bg-gray-400 text-white py-3 rounded-lg font-bold shadow-md transition-all">
+          Criar Conta
+        </button>
+      </form>
+
+      <p class="text-center text-body-md text-secondary mt-lg">
+        Already have an account? 
+        <a routerLink="/login" class="text-[#b22204] font-bold">Login aqui</a>
+      </p>
+
+    </div>
+  </div>
+</main>

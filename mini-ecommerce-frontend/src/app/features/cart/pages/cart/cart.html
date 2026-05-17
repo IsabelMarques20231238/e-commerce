@@ -1,0 +1,66 @@
+<main class="mt-20 pb-xl px-margin-mobile md:px-margin-desktop max-w-max-width mx-auto">
+  <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-4">
+      <div class="flex flex-col gap-3">
+        <h1 class="text-2xl font-bold">Meu Carrinho <span class="text-sm font-normal text-gray-500">{{ cartService.totalItems() }} Itens</span></h1>
+        <p class="text-gray-500">Revise seus produtos antes de finalizar a compra.</p>
+      </div>
+
+      @if (cartService.items().length > 0) {
+        @for (item of cartService.items(); track item.id) {
+          <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col lg:flex-row gap-4 items-center">
+            <img class="w-24 h-24 object-cover rounded-lg bg-gray-50" [src]="item.image" [alt]="item.name">
+            <div class="flex-1">
+              <h3 class="font-bold text-lg text-gray-900">{{ item.name }}</h3>
+              <p class="text-gray-400 text-sm">{{ item.category || 'Categoria' }}</p>
+              <div class="flex items-center gap-4 mt-3">
+                <button (click)="decrementar(item.id)" class="w-8 h-8 border rounded-full text-gray-700 hover:bg-gray-100 transition-colors">-</button>
+                <span class="font-medium">{{ item.quantity }}</span>
+                <button (click)="incrementar(item.id)" class="w-8 h-8 border rounded-full text-gray-700 hover:bg-gray-100 transition-colors">+</button>
+              </div>
+            </div>
+            <div class="text-right">
+              <button (click)="remover(item.id)" class="text-gray-300 hover:text-red-500 mb-4 transition-colors">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+              <p class="text-[#b22204] font-bold text-xl">{{ item.price | currency:'Kz ':'symbol':'1.2-2':'pt-AO' }}</p>
+            </div>
+          </div>
+        }
+      } @else {
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+          <span class="material-symbols-outlined text-6xl text-gray-300 block mb-4">shopping_cart</span>
+          <p class="text-gray-500 text-lg mb-4">Seu carrinho está vazio</p>
+          <a routerLink="/home" class="inline-block bg-[#b22204] text-white px-6 py-2 rounded-lg font-semibold hover:brightness-110 transition-all">
+            Continuar Comprando
+          </a>
+        </div>
+      }
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 h-fit">
+      <h2 class="text-xl font-bold mb-6">Resumo do Pedido</h2>
+      <div class="space-y-4 text-gray-600 mb-6">
+        <div class="flex justify-between"><span>Subtotal ({{ cartService.totalItems() }} itens)</span><span>{{ cartService.getSubtotal() | currency:'Kz ':'symbol':'1.2-2':'pt-AO' }}</span></div>
+        <div class="flex justify-between"><span class="text-green-500">Taxa de Entrega</span><span class="text-green-500">Grátis</span></div>
+        <div class="pt-4 border-t flex justify-between items-center">
+          <span class="text-xl font-bold text-black">Total</span>
+          <div class="text-right">
+            <p class="text-[#b22204] text-2xl font-bold">{{ cartService.getSubtotal() | currency:'Kz ':'symbol':'1.2-2':'pt-AO' }}</p>
+            <p class="text-xs text-gray-400">Em até 12x no cartão</p>
+          </div>
+        </div>
+      </div>
+      @if (cartService.items().length > 0) {
+        <button type="button" (click)="finalizarCompra()" class="w-full bg-[#b22204] text-white py-4 rounded-xl font-bold mt-8 hover:scale-[1.02] transition-transform">
+          Finalizar Compra
+        </button>
+      }
+      <a routerLink="/home" class="block text-center border-2 border-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors mt-4">
+        Continuar Comprando
+      </a>
+    </div>
+  </div>
+</main>
+
+<app-footer></app-footer>

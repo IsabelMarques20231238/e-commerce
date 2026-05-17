@@ -1,0 +1,17 @@
+<main class="mt-16 pb-xl">
+  <app-hero-banner></app-hero-banner>
+  
+
+
+ <app-category-links (categorySelected)="onCategoryChange($event)"></app-category-links>
+
+<app-daily-discover 
+  [products]="filteredProducts"
+  [loading]="loading">
+</app-daily-discover>
+
+@if (!loading && errorMessage) {
+  <p class="max-w-max-width mx-auto px-margin-mobile md:px-0 mt-4 text-red-600">{{ errorMessage }}</p>
+}
+</main>
+<app-footer></app-footer>

@@ -1,0 +1,82 @@
+<section class="max-w-max-width mx-auto px-margin-mobile md:px-0 mt-12">
+  @if (successMessage) {
+    <div class="cart-toast fixed top-20 right-6 z-50 rounded-lg bg-[#b22204] px-4 py-3 text-sm font-semibold text-white shadow-lg">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="cart-toast fixed top-20 right-6 z-50 rounded-lg bg-[#ba1a1a] px-4 py-3 text-sm font-semibold text-white shadow-lg">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <h2 class="font-headline-md text-primary py-2 border-b-2 border-primary w-fit mb-lg">DAILY DISCOVER</h2>
+
+  @if (loading && products.length === 0) {
+    <p class="text-gray-500 mb-md">A carregar produtos...</p>
+  }
+
+  @if (!loading && products.length === 0) {
+    <p class="text-gray-500">Nenhum produto encontrado nesta categoria.</p>
+  }
+
+  @if (products.length > 0) {
+    <div class="grid grid-cols-2 md:grid-cols-6 gap-md">
+      @for (product of products; track product.id) {
+        <div class="product-card bg-surface-container-lowest rounded-lg overflow-hidden product-card-shadow transition-all group flex flex-col h-full cursor-pointer">
+          <div class="relative aspect-square overflow-hidden bg-surface-container">
+            <button
+              type="button"
+              (click)="toggleFavorite(product); $event.stopPropagation()"
+              [disabled]="togglingFavoriteIds.has(product.id)"
+              class="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-sm transition-colors hover:bg-red-50 disabled:opacity-60"
+              [class.text-red-600]="isFavorite(product.id)"
+              [class.text-gray-400]="!isFavorite(product.id)">
+              <span class="material-symbols-outlined text-[21px]"
+                    [class.favorite-icon-filled]="isFavorite(product.id)"
+                    [class.favorite-icon-empty]="!isFavorite(product.id)">
+                favorite
+              </span>
+            </button>
+
+            <img [src]="getProductImage(product)"
+                 [alt]="product.name"
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                 (error)="useDefaultImage($event)"/>
+          </div>
+
+          <div class="p-md flex flex-col flex-grow">
+            <h3 class="text-body-md font-medium text-on-surface line-clamp-2 mb-sm h-10">
+              {{ product.name }}
+            </h3>
+
+            <p class="text-xs text-gray-500 mb-sm">
+              {{ product.category?.name }}
+            </p>
+
+            <div class="mt-auto">
+              <div class="text-primary font-price-display text-lg font-bold">
+                {{ product.price | number:'1.0-0' }} Kz
+              </div>
+
+              <button
+                type="button"
+                (click)="addToCart(product, $event); $event.stopPropagation()"
+                [disabled]="addingToCartIds.has(product.id)"
+                class="w-full mt-md h-10 bg-primary text-on-primary py-2 rounded-lg font-label-lg active:scale-95 flex items-center justify-center gap-2 transition-all disabled:opacity-90"
+                [class.adding-cart-button]="addingToCartIds.has(product.id)">
+                @if (addingToCartIds.has(product.id)) {
+                  <span class="cart-spinner" aria-hidden="true"></span>
+                } @else {
+                  <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+                  <span>Add</span>
+                }
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>

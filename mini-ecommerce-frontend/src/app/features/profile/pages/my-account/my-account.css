@@ -1,0 +1,33 @@
+/* Styles for My Account page */
+:host {
+  display: block;
+}
+
+.profile-card-shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Smooth animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease-out;
+}
+
+.sidebar-item-active {
+  background-color: #fff5f5;
+  color: #b22204;
+  border-right: 4px solid #b22204;
+  font-weight: 600;
+}
+
+.primary-red { color: #b22204; }

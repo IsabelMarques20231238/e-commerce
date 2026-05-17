@@ -1,0 +1,134 @@
+<header class="bg-primary shadow-md fixed top-0 w-full z-50">
+  <div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop w-full h-16 max-w-max-width mx-auto">
+    <div class="flex items-center gap-xl flex-1">
+      <span class="text-headline-lg font-headline-lg font-bold text-on-primary">Shope Ngola</span>
+
+      <div class="flex items-center gap-6">
+        @if (!isHomePage) {
+          <nav class="hidden md:flex gap-8 text-white font-medium">
+            <a routerLink="/" class="hover:opacity-80">Inicio</a>
+          </nav>
+        }
+
+        @if (isHomePage) {
+          <div class="relative hidden md:block w-[min(500px,40vw)]">
+            <input
+              type="text"
+              [placeholder]="preferences.t('searchPlaceholder')"
+              #searchInput
+              (input)="onSearch(searchInput.value)"
+              class="h-10 w-full rounded-lg py-2 pl-4 pr-14 text-black focus:outline-none"/>
+            <button
+              type="button"
+              (click)="onSearch(searchInput.value)"
+              class="absolute right-1 top-1/2 flex h-8 w-10 -translate-y-1/2 items-center justify-center rounded-md bg-transparent hover:bg-gray-100">
+              <span class="material-symbols-outlined text-[#b22204] text-[20px] leading-none">search</span>
+            </button>
+          </div>
+
+          <label class="hidden lg:flex items-center gap-2 text-on-primary text-sm">
+            <span class="material-symbols-outlined text-xl">translate</span>
+            <select
+              class="bg-white/15 border border-white/25 rounded-lg px-2 py-1 text-white outline-none cursor-pointer"
+              [value]="preferences.language()"
+              (change)="setLanguage($any($event.target).value)">
+              @for (language of preferences.languageOptions; track language) {
+                <option class="text-gray-900" [value]="language">{{ preferences.getLanguageLabel(language) }}</option>
+              }
+            </select>
+          </label>
+        }
+      </div>
+    </div>
+
+    @if (isHomePage) {
+    <div class="flex items-center gap-lg ml-md">
+      @if (isHomePage) {
+        <div routerLink="/carrinho"
+             data-cart-icon="main-cart"
+             class="relative cursor-pointer hover:bg-on-primary/10 p-2 rounded-full transition-colors"
+             [class.cart-bounce]="cartIsAnimating">
+          <span class="material-symbols-outlined text-on-primary">shopping_cart</span>
+          <span class="absolute top-0 right-0 bg-on-primary text-primary text-[10px] font-bold px-1.5 rounded-full border border-primary">
+            {{ cartCount }}
+          </span>
+        </div>
+      }
+
+      <div class="cursor-pointer hover:bg-on-primary/10 p-2 rounded-full transition-colors">
+        <span class="material-symbols-outlined text-on-primary">notifications</span>
+      </div>
+
+      <div class="relative">
+        <button (click)="toggleMenu()" class="flex items-center gap-1 p-2 hover:bg-on-primary/10 rounded-lg transition-all text-on-primary">
+          <span class="material-symbols-outlined text-white text-3xl">account_circle</span>
+          <span class="material-symbols-outlined text-white text-sm">arrow_drop_down</span>
+        </button>
+
+        @if (isProfileMenuOpen()) {
+          <div class="fixed inset-0 z-40" (click)="closeMenu()"></div>
+
+          <div class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-2xl border border-gray-100 z-[100] overflow-hidden">
+            <div class="p-4 border-b border-gray-100">
+              <p class="text-[15px] font-bold text-gray-900">{{ userGreeting }}</p>
+              <p class="text-xs text-gray-500">{{ user?.email || '' }}</p>
+            </div>
+
+            <div class="p-1">
+              <div class="px-3 py-2">
+                <label class="text-xs font-bold uppercase text-gray-400">{{ preferences.t('language') }}</label>
+                <select
+                  class="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm text-gray-700"
+                  [value]="preferences.language()"
+                  (change)="setLanguage($any($event.target).value)">
+                  @for (language of preferences.languageOptions; track language) {
+                    <option [value]="language">{{ preferences.getLanguageLabel(language) }}</option>
+                  }
+                </select>
+              </div>
+
+              <button
+                type="button"
+                (click)="preferences.toggleDarkMode()"
+                class="flex items-center justify-between gap-3 p-3 w-full rounded-lg hover:bg-gray-50 text-gray-700 transition-colors group">
+                <span class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-gray-400 group-hover:text-primary">
+                    {{ preferences.darkMode() ? 'dark_mode' : 'light_mode' }}
+                  </span>
+                  <span class="text-sm font-medium">{{ preferences.t('darkMode') }}</span>
+                </span>
+                <span class="w-10 h-5 rounded-full p-0.5 transition-colors" [class.bg-primary]="preferences.darkMode()" [class.bg-gray-200]="!preferences.darkMode()">
+                  <span class="block w-4 h-4 rounded-full bg-white transition-transform" [class.translate-x-5]="preferences.darkMode()"></span>
+                </span>
+              </button>
+
+              <a routerLink="/minha-conta" (click)="closeMenu()"
+                 class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 transition-colors group">
+                <span class="material-symbols-outlined text-gray-400 group-hover:text-primary">account_circle</span>
+                <span class="text-sm font-medium">{{ preferences.t('myAccount') }}</span>
+              </a>
+
+              @if (isHomePage) {
+                <a routerLink="/carrinho" (click)="closeMenu()" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 text-gray-700 transition-colors group">
+                  <span class="material-symbols-outlined text-gray-400 group-hover:text-primary">shopping_cart</span>
+                  <span class="text-sm font-medium">{{ preferences.t('cart') }}</span>
+                </a>
+              }
+            </div>
+
+            <div class="p-1 border-t border-gray-100">
+              <button
+                type="button"
+                (click)="logout()"
+                class="flex items-center gap-3 p-3 w-full rounded-lg hover:bg-red-50 text-red-600 transition-colors group">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="text-sm font-bold">{{ preferences.t('logout') }}</span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</header>
